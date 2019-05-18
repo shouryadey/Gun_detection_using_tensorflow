@@ -1,4 +1,4 @@
-![](https://github.com/shouryadey/Detection_of_Gun_with_tensorflow/blob/master/gundet.gif)
+![](https://github.com/shouryadey/Gun_detection_using_tensorflow/blob/master/gundet.gif)
 
 To run the model:
 
