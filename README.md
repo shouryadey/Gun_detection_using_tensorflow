@@ -16,7 +16,7 @@ To run the model:
 
   >iv)copy the paste the ssd_mobilenet_v1_pets.config file from the gun_detection_tensorflow repository
 
-  >v)copy and paste gun_graphxxxxx directory to from the gun_detection_tensorflow repository/gun_graph (gun_graph17230 ,gun_graph16454etc)
+  >v)copy and paste gun_graphxxxxx directories  from the gun_detection_tensorflow repository/(gun_graph17230 ,gun_graph16454etc)
 
 4)In models/research/object_detection/training
 
