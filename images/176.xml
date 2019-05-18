@@ -1,0 +1,26 @@
+<annotation>
+	<folder>img</folder>
+	<filename>176.png</filename>
+	<path>/home/shouryadey/Desktop/from_github/images/img/176.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>640</width>
+		<height>318</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Gun</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>176</xmin>
+			<ymin>1</ymin>
+			<xmax>559</xmax>
+			<ymax>158</ymax>
+		</bndbox>
+	</object>
+</annotation>

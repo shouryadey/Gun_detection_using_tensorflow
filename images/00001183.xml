@@ -1,0 +1,26 @@
+<annotation>
+	<folder>github2.image</folder>
+	<filename>00001183.jpg</filename>
+	<path>/home/shouryadey/Desktop/from_github2/github2.image/00001183.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>600</width>
+		<height>386</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Gun</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>240</xmin>
+			<ymin>21</ymin>
+			<xmax>363</xmax>
+			<ymax>267</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,26 @@
+<annotation>
+	<folder>img</folder>
+	<filename>942.jpg</filename>
+	<path>/home/shouryadey/Downloads/img/942.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>800</width>
+		<height>449</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Gun</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>546</xmin>
+			<ymin>226</ymin>
+			<xmax>705</xmax>
+			<ymax>328</ymax>
+		</bndbox>
+	</object>
+</annotation>

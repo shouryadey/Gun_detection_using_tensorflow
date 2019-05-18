@@ -1,0 +1,209 @@
+IN CASE YOU DO NOT HAVE ENOUGH RAM YOU CAN CHECK THIS OUT:https://medium.com/@moshe.livne/training-tensorflow-for-free-pet-object-detection-api-sample-trained-on-google-collab-c2e65f4a9949
+--------------------------------------------------------------------------------------------------
+INSTALLATION
+1.Install cuda 9.0
+2.install cudnn 7.14 for 9.0 install nvcc
+3.install tensorflow gpu
+4.install protobuf
+5.install python (if necessary )
+6.install virtualenv 
+7.install native python
+8.install cython
+9.install matplotlib
+10.install contextlib2
+11.install jupyter notebook
+(worked for tf-gpu 1.12)
+-----------------------------------------------------------------------------------------------------
+***INSTALL OPENCV2
+	a.LINKS:https://medium.com/@debugvn/installing-opencv-3-3-0-on-ubuntu-16-04-lts-7db376f93961
+	b.if a does not work use https://www.learnopencv.com/install-opencv-3-4-4-on-ubuntu-16-04/(on virtal env)
+
+
+-------------------------------------------------------------------------------------------------------
+***Follow video:https://pythonprogramming.net/introduction-use-tensorflow-object-detection-api-tutorial/
+-------------------------------------------------------------------------------------------------------
+
+ADDITIONAL LINKS: a)https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md
+		  b)medium.com/@karol_majek/10-simple-steps-to-tensorflow-object-detection-api-aa2e9b96dc94
+*** CREATE ANNOTATION FILE FROM IMAGES USING
+		  a)https://github.com/tzutalin/labelImg
+		  b)https://pythonprogramming.net/custom-objects-tracking-tensorflow-object-detection-api-tutorial/
+-------------------------------------------------------------------------------------------------------
+1.create a directory(follow https://pythonprogramming.net/custom-objects-tracking-tensorflow-object-detection-api-tutorial/)
+	->Desktop(in desktop)
+	   ->object_detection(directory)
+	   	 ->data(will contain test_labels.csv ,train_labels.csv,train.record,test.record)(directory)
+
+		 ->images(contains two folders test(contains test images with xml annotations) and train(contains train images with xml annotations),and all the 			   images in training (contains all images with xml annotations)(directory)
+
+		 ->ssd_mobilenet_v1_coco_11_06_2017(latest version)(file)
+
+		 ->training(contains object_detection.pbtxt and ssd_mobilenet_v1_pets.config (after updation)) (file)
+
+		 ->ssd_mobilenet_v1_pets.config(again)(file)
+
+		 ->generate_tfrecord.py(after updation)(file)
+
+		 ->xml_to_csv.py(after updation)(file)
+------------------------------------------------------------------------------------------------------------
+AFTER CREATING ANNOTATION FILE(IN XML) 
+CONVERT TO CSV
+1.download xml_to_csv.py from racoon detector github
+	a.make changes
+		def main():
+		    image_path = os.path.join(os.getcwd(), 'annotations')
+		    xml_df = xml_to_csv(image_path)
+		    xml_df.to_csv('raccoon_labels.csv', index=None)
+		    print('Successfully converted xml to csv.')
+	to
+		def main():
+		    for directory in ['train','test']:
+			image_path = os.path.join(os.getcwd(), 'images/{}'.format(directory))
+			xml_df = xml_to_csv(image_path)
+			xml_df.to_csv('data/{}_labels.csv'.format(directory), index=None)
+			print('Successfully converted xml to csv.')
+
+
+---------------------------------------------------------------------------------------------------
+
+3.download generate_tfrecord.py to generate tf records from the .csv files
+	changes
+	a.In comments at the beginning 
+	  $ python3 generate_tfrecord.py --csv_input=data/test_labels.csv  --output_path=data/test.record --image_dir=images
+
+	b.racoon to gun
+	c.in main 2nd line:
+		path = os.path.join(os.getcwd(),FLAGS.image_dir)
+------------------------------------------------------------------------------------------------
+4.changes in .config file
+  	a.num_classes:types of object
+  	b.fine_tune_checkpoint:"ssd_mobilenet_v1_coco_11_06_2017/model.ckpt"	
+ 	
+	c.
+	train_input_reader: 
+	{
+	   tf_record_input_reader 
+		{
+		    input_path: "/home/shouryadey/Desktop/models/research/object_detection/data/train.record"
+		}
+	  label_map_path: "/home/shouryadey/Desktop/models/research/object_detection/training/object_detection.pbtxt"
+	}
+
+ 	d.
+	eval_input_reader: 
+	{
+	  tf_record_input_reader 
+	  {
+	    input_path: "/home/shouryadey/Desktop/models/research/object_detection/data/test.record"
+	  }
+	  label_map_path: "/home/shouryadey/Desktop/models/research/object_detection/training/object_detection.pbtxt"
+	  shuffle: false
+	  num_readers: 1
+	}
+---------------------------------------------------------------------------------------------------
+5.Inside training dir, add object-detection.pbtxt:
+
+	item {
+	  id: 1
+	  name: 'gun'
+	}
+
+Instead of gun use teh object name trained for.
+ also insert the .config file modified in training directory
+----------------------------------------------------------------------------------------------
+****copy the data,images,ssd_mobilenet_v1_coco_11_06_2017 and training directories along with ssd_mobilenet_v1_pets.config in models/research/object_detection
+6.
+ from models/research/object_detection/samples/configs/ssd_mobilenet_v1_pets.config
+
+Put the config(after changing as in no 5) in the training directory, and extract the ssd_mobilenet_v1(from wget http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_11_06_2017.tar.gz) in the models/object_detection directory
+
+----------------------------------------------------------------------------------------------
+7. in models/research/:
+  $ python3 object_detection/legacy/train.py --logtostderr --train_dir=object_detection/training/ --pipeline_config_path=object_detection/training/ssd_mobilenet_v1_pets.config
+-----------------------------------------------------------------------------------------------
+
+8.one can use tensorboard From models/object_detection, via terminal, you start TensorBoard with:
+
+tensorboard --logdir='training
+
+***AFTER TRAINING THE MODEL,go to Desktop/research/models and run in terminal -->
+$ export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
+-------------------------------------------------------------------------------------------------
+
+9.exporting the inference_graph
+	$ python3 export_inference_graph.py 
+         --input_type image_tensor     
+         --pipeline_config_path home/Desktop/models/research/object_detection/training/ssd_mobilenet_v1_pets.config  (path of the .config file)   
+         --trained_checkpoint_prefix home/Desktop/models/research/object_detection/training/model.ckpt-5762(last checkpoint number which contains all the three kind of files ckpt.index ,ckpt.meta,ckpt.data)   
+	 --output_directory gun_graph(if not created will be created automatically)
+--------------------------------------------------------------------------------------------------
+
+10.open jupyter notebook from teerminal using-->
+	$ jupyter notebook
+	make changes :
+		
+	a.# What model to download.
+		MODEL_NAME = 'gun_graph'
+
+		# Path to frozen detection graph. This is the actual model that is used for the object detection.
+		PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
+
+		# List of the strings that is used to add correct label for each box.
+		PATH_TO_LABELS = os.path.join('training', 'object_detection.pbtxt')
+
+		NUM_CLASSES = 1	
+
+	b.Finally, in the Detection section, change the TEST_IMAGE_PATHS var to:
+
+	  TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(3, 8) ]
+		(make sure the images in the object_detection/test_images have the name conforms to the above format i.e image{number in range}.jpg)
+	
+	c.Go to cell and select run all.get your result at the end  
+---------------------------------------------------------------------------------------------------------
+
+
+ADDITIONAL LINKS:(for speeding up the model)
+https://becominghuman.ai/tensorflow-object-detection-api-basics-of-detection-2-2-28b348495eec
+
+
+------------------------------------------------------------------------------------------------------
+NOW TRY TO RUN THE TRAINED MODEL ON A VIDEO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,26 @@
+<annotation>
+	<folder>image</folder>
+	<filename>719.png</filename>
+	<path>/home/shouryadey/Downloads/image/719.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>600</width>
+		<height>387</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>Gun</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>134</xmin>
+			<ymin>111</ymin>
+			<xmax>398</xmax>
+			<ymax>180</ymax>
+		</bndbox>
+	</object>
+</annotation>
